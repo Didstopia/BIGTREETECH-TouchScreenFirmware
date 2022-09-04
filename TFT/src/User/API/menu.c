@@ -494,6 +494,7 @@ void menuClearGaps(void)
   else if ((MENU_IS(menuStatus)) ||
            (MENU_IS(menuHeat)) ||
            (MENU_IS(menuLoadUnload)) ||
+           (MENU_IS(menuMPC)) ||
            (MENU_IS(menuPid)) ||
            (MENU_IS(menuTuneExtruder)) ||
            (MENU_IS(menuFan)) ||
@@ -869,6 +870,7 @@ void menuDrawPage(const MENUITEMS *menuItems)
       curRect = rect_of_keySS;
     else if ((MENU_IS(menuHeat)) ||
              (MENU_IS(menuLoadUnload)) ||
+             (MENU_IS(menuMPC)) ||
              (MENU_IS(menuPid)) ||
              (MENU_IS(menuTuneExtruder)) ||
              (MENU_IS(menuFan)) ||
@@ -944,6 +946,7 @@ void showLiveInfo(uint8_t index, const LIVE_INFO * liveicon, bool redrawIcon)
     {
       GUI_POINT loc;
 
+      // set horizontal text align
       switch (liveicon->lines[i].h_align)
       {
         case CENTER:
@@ -963,7 +966,7 @@ void showLiveInfo(uint8_t index, const LIVE_INFO * liveicon, bool redrawIcon)
       switch (liveicon->lines[i].v_align)
       {
         case CENTER:
-          loc.y = liveicon->lines[i].pos.y  - BYTE_HEIGHT / 2;
+          loc.y = liveicon->lines[i].pos.y - BYTE_HEIGHT / 2;
           break;
 
         case BOTTOM:
@@ -982,12 +985,13 @@ void showLiveInfo(uint8_t index, const LIVE_INFO * liveicon, bool redrawIcon)
       {
         GUI_SetTextMode(liveicon->lines[i].text_mode);
         GUI_SetBkColor(liveicon->lines[i].bk_color);
-      }
 
-      if (redrawIcon || liveicon->iconIndex == ICON_NULL)
         GUI_DispString(iconPt.x + loc.x, iconPt.y + loc.y, liveicon->lines[i].text);
+      }
       else
+      {
         GUI_DispStringOnIcon(liveicon->iconIndex, iconPt, loc, liveicon->lines[i].text);
+      }
     }
   }
 
@@ -1098,6 +1102,7 @@ KEY_VALUES menuKeyGetValue(void)
           }
           else if ((MENU_IS(menuHeat)) ||
                    (MENU_IS(menuLoadUnload)) ||
+                   (MENU_IS(menuMPC)) ||
                    (MENU_IS(menuPid)) ||
                    (MENU_IS(menuTuneExtruder)) ||
                    (MENU_IS(menuFan)) ||
